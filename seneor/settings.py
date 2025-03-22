@@ -1,19 +1,26 @@
-
 from pathlib import Path
 import os
+
+# Base Directory
 BASE_DIR = Path(__file__).resolve().parent.parent
-TEMPLATES_DIRS=os.path.join(BASE_DIR,"templates")
+
+# Templates Directory (Fixed)
+TEMPLATES_DIRS = [os.path.join(BASE_DIR, "templates")]
+
+# Static Files Configuration
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),  # Static files folder in the project root
-]
-import os  
-SECRET_KEY = os.getenv('SECRET_KEY', 'a91eff586dcf63855387764b8b8bde25')
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
-DEBUG = False  # Set to False in production
+# Secret Key (Avoid Hardcoding)
+SECRET_KEY = os.getenv('SECRET_KEY')
 
-ALLOWED_HOSTS = ["esp-dash-wtlb.onrender.com"]  # Add your Render domain
+# Debug Mode (False in Production)
+DEBUG = False  
 
+# Allowed Hosts (Including Local Development)
+ALLOWED_HOSTS = ["esp-dash-wtlb.onrender.com", "127.0.0.1", "localhost"]
+
+# Installed Apps
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -21,13 +28,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',  # Add this for REST Framework
-    'api',  # Add your app here
-    'corsheaders', 
-    'django_extensions', 
+    'rest_framework',  # REST API Support
+    'api',             # Your API app
+    'corsheaders',     # CORS Support
+    'django_extensions',
     'dashboard',
 ]
 
+# Middleware
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -36,12 +44,19 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware', 
+    'corsheaders.middleware.CorsMiddleware',
 ]
-CORS_ALLOW_ALL_ORIGINS = True
 
+# CORS Configuration (Use Allowed Origins Instead of Allowing All)
+CORS_ALLOWED_ORIGINS = [
+    "https://esp-dash-wtlb.onrender.com",
+    "http://localhost:3000",  # If testing locally
+]
+
+# Root URL Configuration
 ROOT_URLCONF = 'seneor.urls'
 
+# Templates
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -58,38 +73,33 @@ TEMPLATES = [
     },
 ]
 
+# WSGI Application
 WSGI_APPLICATION = 'seneor.wsgi.application'
 
+# Database (Fix Path Issue)
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': str(BASE_DIR / 'db.sqlite3'),
     }
 }
 
+# Password Validation
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
-
+# Localization
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_TZ = True
 
+# Static Files
 STATIC_URL = 'static/'
+
+# Default Auto Field
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
