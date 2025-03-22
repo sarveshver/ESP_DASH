@@ -5,7 +5,7 @@ import os
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Templates Directory (Fixed)
-TEMPLATES_DIRS = [os.path.join(BASE_DIR, "templates")]
+TEMPLATES_DIR = os.path.join(BASE_DIR, "templates")
 
 # Static Files Configuration
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
@@ -60,7 +60,7 @@ ROOT_URLCONF = 'seneor.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [TEMPLATES_DIRS],
+        'DIRS': [TEMPLATES_DIR],  # Directly passing the path here
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -100,6 +100,9 @@ USE_TZ = True
 
 # Static Files
 STATIC_URL = 'static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),  # Static files folder in the project root
+]
 
 # Default Auto Field
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
